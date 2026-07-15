@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormsModule } from '@angular/forms';
 import { GenuiComponent } from './genui.component';
 import { OpenUiService } from './openui.service';
+import { ProviderService } from './provider.service';
 import { SanctuaryService } from './sanctuary.service';
 import type { ChatMessage, Turn } from './models';
 
@@ -21,6 +22,7 @@ interface Example {
 export class ChatComponent {
   private readonly sanctuary = inject(SanctuaryService);
   private readonly openui = inject(OpenUiService);
+  private readonly provider = inject(ProviderService);
 
   readonly turns = signal<Turn[]>([]);
   readonly draft = signal('');
@@ -84,9 +86,14 @@ export class ChatComponent {
 
     try {
       const systemPrompt = await this.ensureSystemPrompt();
-      await this.sanctuary.streamChat(systemPrompt, history, (acc) => {
-        this.updateLastTurn((t) => ({ ...t, text: acc }));
-      });
+      await this.sanctuary.streamChat(
+        systemPrompt,
+        history,
+        (acc) => {
+          this.updateLastTurn((t) => ({ ...t, text: acc }));
+        },
+        { provider: this.provider.selected() },
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
       const code = `err = Callout("error", "Something went wrong", ${JSON.stringify(message)})\nroot = Stack([err])`;

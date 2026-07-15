@@ -8,9 +8,19 @@
       <small>Generative UI demo · Angular 22 + OpenUI</small>
     </div>
   </div>
-  <a class="repo-link" href="https://www.openui.com/docs/openui-lang" target="_blank" rel="noreferrer">
-    OpenUI Lang ↗
-  </a>
+  <div class="topbar-actions">
+    <label class="provider-select" [title]="selectedProviderHint()">
+      <span class="provider-select-label">AI</span>
+      <select [ngModel]="provider.selected()" (ngModelChange)="provider.select($event)">
+        @for (opt of provider.options; track opt.id) {
+          <option [value]="opt.id">{{ opt.label }}</option>
+        }
+      </select>
+    </label>
+    <a class="repo-link" href="https://www.openui.com/docs/openui-lang" target="_blank" rel="noreferrer">
+      OpenUI Lang ↗
+    </a>
+  </div>
 </header>
 
 <main class="stage">

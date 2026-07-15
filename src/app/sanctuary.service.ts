@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import type { ChatMessage, ToolSpec } from './models';
+import type { AiProvider } from './provider.service';
+
+export interface StreamChatOptions {
+  provider?: AiProvider;
+  signal?: AbortSignal;
+}
 
 /** Talks to the Ember & Scale backend: tool specs + streaming chat. */
 @Injectable({ providedIn: 'root' })
@@ -25,13 +31,13 @@ export class SanctuaryService {
     systemPrompt: string,
     messages: ChatMessage[],
     onDelta: (accumulated: string) => void,
-    signal?: AbortSignal,
+    options?: StreamChatOptions,
   ): Promise<void> {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ systemPrompt, messages }),
-      signal,
+      body: JSON.stringify({ systemPrompt, messages, provider: options?.provider }),
+      signal: options?.signal,
     });
     if (!res.ok || !res.body) throw new Error(`Chat request failed (${res.status})`);
 

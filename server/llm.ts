@@ -1,11 +1,17 @@
 /**
  * LLM provider abstraction for the chat backend.
  *
- *   LLM_PROVIDER=mock    (default) — offline canned OpenUI-Lang streamer
- *   LLM_PROVIDER=openai            — OpenAI or any OpenAI-compatible endpoint
- *                                    (LM Studio, Ollama, vLLM, OpenRouter, …)
- *   LLM_PROVIDER=azure             — Azure OpenAI, via API key OR a locally
- *                                    logged-in identity (DefaultAzureCredential)
+ *   LLM_PROVIDER=claude   (default) — the local Claude CLI (`claude`)
+ *   LLM_PROVIDER=copilot            — the local GitHub Copilot CLI (`copilot`)
+ *   LLM_PROVIDER=ollama             — a local Ollama model (OLLAMA_MODEL, default gemma4:12b)
+ *   LLM_PROVIDER=openai             — OpenAI or any OpenAI-compatible endpoint
+ *   LLM_PROVIDER=azure              — Azure OpenAI, via API key OR a locally
+ *                                     logged-in identity (DefaultAzureCredential)
+ *   LLM_PROVIDER=mock               — offline canned OpenUI-Lang streamer
+ *
+ * This env var is only the server-startup DEFAULT. The chat UI's provider
+ * selector sends the chosen provider on every request (see `streamChat`'s
+ * `providerOverride` param) — normal use never falls back to the env value.
  *
  * All providers stream plain OpenUI-Lang text back to the caller one delta at
  * a time via the `onDelta` callback.
@@ -13,6 +19,7 @@
 import OpenAI, { AzureOpenAI } from 'openai';
 import { DefaultAzureCredential, getBearerTokenProvider } from '@azure/identity';
 import { streamClaude } from './claudeCli.js';
+import { streamCopilot } from './copilotCli.js';
 import { pickMockResponse } from './mockResponses.js';
 
 export interface ChatMessage {
@@ -20,11 +27,13 @@ export interface ChatMessage {
   content: string;
 }
 
-export type Provider = 'mock' | 'claude' | 'openai' | 'azure';
+export type Provider = 'mock' | 'claude' | 'copilot' | 'ollama' | 'openai' | 'azure';
 
 export function activeProvider(): Provider {
   const p = (process.env.LLM_PROVIDER ?? 'claude').toLowerCase();
   if (p === 'mock') return 'mock';
+  if (p === 'copilot') return 'copilot';
+  if (p === 'ollama') return 'ollama';
   if (p === 'openai' || p === 'local') return 'openai';
   if (p === 'azure') return 'azure';
   return 'claude';
@@ -55,9 +64,16 @@ async function streamMock(messages: ChatMessage[], onDelta: (s: string) => void)
 
 function makeOpenAIClient(): { client: OpenAI; model: string } {
   const apiKey = process.env.OPENAI_API_KEY ?? 'not-needed-for-local';
-  const baseURL = process.env.OPENAI_BASE_URL; // e.g. http://localhost:11434/v1 (Ollama)
+  const baseURL = process.env.OPENAI_BASE_URL;
   const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
   const client = new OpenAI({ apiKey, baseURL });
+  return { client, model };
+}
+
+function makeOllamaClient(): { client: OpenAI; model: string } {
+  const baseURL = process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434/v1';
+  const model = process.env.OLLAMA_MODEL ?? 'gemma4:12b';
+  const client = new OpenAI({ apiKey: 'ollama', baseURL });
   return { client, model };
 }
 
@@ -104,8 +120,9 @@ export async function streamChat(
   systemPrompt: string,
   messages: ChatMessage[],
   onDelta: (s: string) => void,
+  providerOverride?: Provider,
 ): Promise<void> {
-  const provider = activeProvider();
+  const provider = providerOverride ?? activeProvider();
   if (provider === 'mock') {
     await streamMock(messages, onDelta);
     return;
@@ -114,7 +131,12 @@ export async function streamChat(
     await streamClaude(systemPrompt, messages, onDelta);
     return;
   }
+  if (provider === 'copilot') {
+    await streamCopilot(systemPrompt, messages, onDelta);
+    return;
+  }
   const withSystem: ChatMessage[] = [{ role: 'system', content: systemPrompt }, ...messages];
-  const { client, model } = provider === 'azure' ? makeAzureClient() : makeOpenAIClient();
+  const { client, model } =
+    provider === 'azure' ? makeAzureClient() : provider === 'ollama' ? makeOllamaClient() : makeOpenAIClient();
   await streamCompletions(client, model, withSystem, onDelta);
 }

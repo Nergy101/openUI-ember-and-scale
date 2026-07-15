@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, NgZone, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, NgZone, computed, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ChatComponent } from './chat.component';
+import { ProviderService } from './provider.service';
 
 /**
  * Drives the `--cursor-x`/`--cursor-y` custom properties consumed by the
@@ -10,12 +12,18 @@ import { ChatComponent } from './chat.component';
  */
 @Component({
   selector: 'app-root',
-  imports: [ChatComponent],
+  imports: [ChatComponent, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
+  readonly provider = inject(ProviderService);
+
+  readonly selectedProviderHint = computed(
+    () => this.provider.options.find((o) => o.id === this.provider.selected())?.hint ?? '',
+  );
+
   constructor() {
     const zone = inject(NgZone);
     const destroyRef = inject(DestroyRef);

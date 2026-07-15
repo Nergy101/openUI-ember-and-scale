@@ -26,6 +26,9 @@ const chatBodySchema = z.object({
       content: z.string(),
     }),
   ),
+  // Per-request provider from the chat UI's selector. Falls back to the
+  // server's LLM_PROVIDER env default (activeProvider()) when omitted.
+  provider: z.enum(['mock', 'claude', 'copilot', 'ollama', 'openai', 'azure']).optional(),
 });
 
 const app = express();
@@ -56,16 +59,21 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     res.status(400).json({ error: 'Invalid chat request', details: parsed.error.issues });
     return;
   }
-  const { systemPrompt, messages } = parsed.data;
+  const { systemPrompt, messages, provider } = parsed.data;
 
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache, no-transform');
   res.setHeader('X-Accel-Buffering', 'no');
 
   try {
-    await streamChat(systemPrompt, messages, (delta) => {
-      res.write(delta);
-    });
+    await streamChat(
+      systemPrompt,
+      messages,
+      (delta) => {
+        res.write(delta);
+      },
+      provider,
+    );
     res.end();
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown LLM error';

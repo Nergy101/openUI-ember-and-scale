@@ -55,6 +55,53 @@
   }
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.provider-select {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: var(--ember);
+    box-shadow: 0 0 0 1px rgba(255, 122, 46, 0.2), 0 0 14px rgba(255, 122, 46, 0.18);
+  }
+
+  .provider-select-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ember-hot);
+  }
+
+  select {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+
+    option {
+      background: var(--card);
+      color: var(--text);
+    }
+  }
+}
+
 .stage {
   flex: 1;
   min-height: 0;

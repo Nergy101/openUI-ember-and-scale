@@ -146,47 +146,29 @@
       border-radius: 20px;
       padding: 20px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-      transition: box-shadow 0.3s ease;
     }
 
-    // While tokens are still streaming in, keep a quiet ambient cue running so
-    // the card never looks "finished" (or stalled) mid-generation.
+    // While tokens are still streaming in, pulse the ambient glow hard and fast
+    // so it's unmistakable the UI is still being generated.
     &.is-streaming app-genui {
-      box-shadow:
-        0 16px 40px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 122, 46, 0.18),
-        0 0 26px rgba(255, 122, 46, 0.16);
+      animation: emberPulse 2s ease-in-out infinite;
     }
   }
 }
 
-.generating-bar {
-  width: 100%;
-  max-width: 100%;
-  height: 3px;
-  margin-bottom: 10px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255, 122, 46, 0.12);
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    width: 40%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, transparent, var(--ember-hot), transparent);
-    animation: sweep 1.3s ease-in-out infinite;
-  }
-}
-
-@keyframes sweep {
-  0% {
-    transform: translateX(-120%);
-  }
+@keyframes emberPulse {
+  0%,
   100% {
-    transform: translateX(340%);
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 122, 46, 0.15),
+      0 0 14px rgba(255, 122, 46, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 2px rgba(255, 122, 46, 0.55),
+      0 0 46px rgba(255, 122, 46, 0.6);
   }
 }
 

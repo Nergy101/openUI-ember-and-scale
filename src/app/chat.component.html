@@ -36,9 +36,6 @@
               {{ thinkingPhrase() }}
             </div>
           }
-          @if (turn.streaming && turn.text) {
-            <div class="generating-bar" aria-hidden="true"></div>
-          }
           <app-genui [response]="turn.text" [isStreaming]="turn.streaming" />
         </div>
       }

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 100" role="img" aria-label="Dragon skull">
+  <defs>
+    <linearGradient id="headGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a2716" />
+      <stop offset="100%" stop-color="#1c130e" />
+    </linearGradient>
+  </defs>
+
+  <!-- horns, symmetric pairs, swept back and upright -->
+  <path d="M81,34 L95,30 L97,4 Z" fill="#241a12" stroke="#ff7a2e" stroke-width="0.6" stroke-opacity="0.45" />
+  <path d="M29,34 L15,30 L13,4 Z" fill="#241a12" stroke="#ff7a2e" stroke-width="0.6" stroke-opacity="0.45" />
+  <path d="M69,28 L79,24 L77,0 Z" fill="#2b1f14" stroke="#ff7a2e" stroke-width="0.6" stroke-opacity="0.45" />
+  <path d="M41,28 L31,24 L33,0 Z" fill="#2b1f14" stroke="#ff7a2e" stroke-width="0.6" stroke-opacity="0.45" />
+
+  <!-- skull silhouette -->
+  <path
+    d="M55,18
+       C73,18 89,30 91,43
+       C93,56 83,70 75,80
+       C70,88 63,93 55,96
+       C47,93 40,88 35,80
+       C27,70 17,56 19,43
+       C21,30 37,18 55,18 Z"
+    fill="url(#headGrad)"
+    stroke="#ff7a2e"
+    stroke-width="1.4"
+    stroke-opacity="0.6"
+  />
+
+  <!-- eye sockets -->
+  <ellipse cx="69" cy="50" rx="9" ry="6.5" fill="#0b0807" transform="rotate(12 69 50)" />
+  <ellipse cx="41" cy="50" rx="9" ry="6.5" fill="#0b0807" transform="rotate(-12 41 50)" />
+
+  <!-- glowing eyes with reptilian slit pupils -->
+  <circle cx="70" cy="50" r="4" fill="#ffc370" />
+  <ellipse cx="71" cy="50" rx="1" ry="3.4" fill="#2a0d02" />
+  <circle cx="40" cy="50" r="4" fill="#ffc370" />
+  <ellipse cx="39" cy="50" rx="1" ry="3.4" fill="#2a0d02" />
+
+  <!-- nasal ridge -->
+  <path d="M55,54 L55,70" stroke="#0b0807" stroke-width="1" opacity="0.5" />
+
+  <!-- nostrils -->
+  <ellipse cx="60" cy="72" rx="2.4" ry="1.6" fill="#0b0807" opacity="0.7" transform="rotate(20 60 72)" />
+  <ellipse cx="50" cy="72" rx="2.4" ry="1.6" fill="#0b0807" opacity="0.7" transform="rotate(-20 50 72)" />
+
+  <!-- mouth line -->
+  <path d="M35,78 Q55,86 75,78" fill="none" stroke="#0b0807" stroke-width="1.1" stroke-linecap="round" opacity="0.55" />
+
+  <!-- fangs -->
+  <path d="M67,80 L70,92 L73,79 Z" fill="#f5ead9" />
+  <path d="M43,80 L40,92 L37,79 Z" fill="#f5ead9" />
+</svg>

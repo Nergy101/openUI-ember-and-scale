@@ -24,7 +24,9 @@
   gap: 12px;
 
   .logo {
-    font-size: 1.8rem;
+    display: block;
+    width: 34px;
+    height: 34px;
     filter: drop-shadow(0 0 10px rgba(255, 122, 46, 0.65));
   }
 

@@ -29,12 +29,15 @@
           <div class="bubble">{{ turn.text }}</div>
         </div>
       } @else {
-        <div class="turn assistant">
+        <div class="turn assistant" [class.is-streaming]="turn.streaming">
           @if (turn.streaming && !turn.text) {
             <div class="thinking">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              summoning dragons…
+              {{ thinkingPhrase() }}
             </div>
+          }
+          @if (turn.streaming && turn.text) {
+            <div class="generating-bar" aria-hidden="true"></div>
           }
           <app-genui [response]="turn.text" [isStreaming]="turn.streaming" />
         </div>
@@ -63,7 +66,11 @@
       [disabled]="busy()"
     />
     <button type="submit" [disabled]="busy() || !draft().trim()">
-      {{ busy() ? '…' : 'Send' }}
+      @if (busy()) {
+        <span class="btn-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+      } @else {
+        Send
+      }
     </button>
   </form>
 </div>

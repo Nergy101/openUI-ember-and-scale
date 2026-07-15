@@ -30,6 +30,34 @@ export class ChatComponent {
 
   private systemPrompt: string | null = null;
 
+  private readonly loadingPhrases = [
+    'Summoning dragons…',
+    'Counting hoard gold…',
+    'Untangling wingspans…',
+    'Waking the archives…',
+    'Polishing scales…',
+    'Measuring fire power…',
+    'Consulting the sanctuary ledger…',
+  ];
+  readonly thinkingPhrase = signal(this.loadingPhrases[0]);
+  private thinkingTimer: ReturnType<typeof setInterval> | null = null;
+
+  private startThinkingPhrases(): void {
+    let i = 0;
+    this.thinkingPhrase.set(this.loadingPhrases[0]);
+    this.thinkingTimer = setInterval(() => {
+      i = (i + 1) % this.loadingPhrases.length;
+      this.thinkingPhrase.set(this.loadingPhrases[i]);
+    }, 1400);
+  }
+
+  private stopThinkingPhrases(): void {
+    if (this.thinkingTimer !== null) {
+      clearInterval(this.thinkingTimer);
+      this.thinkingTimer = null;
+    }
+  }
+
   readonly examples: Example[] = [
     { emoji: '🔥', label: 'Fire dragons', prompt: 'Show me the fire dragons as profile cards' },
     { emoji: '💰', label: 'Treasure by element', prompt: 'Which element hoards the most treasure? Chart it' },
@@ -79,6 +107,7 @@ export class ChatComponent {
 
     this.draft.set('');
     this.busy.set(true);
+    this.startThinkingPhrases();
 
     const history: ChatMessage[] = this.turns().map((t) => ({ role: t.role, content: t.text }));
     history.push({ role: 'user', content });
@@ -102,6 +131,7 @@ export class ChatComponent {
       const code = `err = Callout("error", "Something went wrong", ${JSON.stringify(message)})\nroot = Stack([err])`;
       this.updateLastTurn((t) => ({ ...t, text: code }));
     } finally {
+      this.stopThinkingPhrases();
       this.updateLastTurn((t) => ({ ...t, streaming: false }));
       this.busy.set(false);
     }

@@ -130,7 +130,7 @@
   }
 
   &.assistant {
-    justify-content: flex-start;
+    justify-content: center;
 
     // Generated OpenUI content (charts, tables, callouts, etc.) mostly assumes
     // a `Card` ancestor supplies an opaque surface — plenty of them don't get
@@ -139,7 +139,6 @@
     app-genui {
       display: block;
       width: 100%;
-      max-width: 900px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;

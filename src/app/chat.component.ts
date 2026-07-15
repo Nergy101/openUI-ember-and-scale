@@ -40,7 +40,7 @@ export class ChatComponent {
     { emoji: '⚡', label: 'Storm chasers', prompt: 'Tell me about our storm dragons — how wild are they?' },
     { emoji: '💎', label: 'Richest hoard', prompt: 'Which single dragon has the biggest treasure hoard?' },
     { emoji: '😈', label: 'Chaotic energy', prompt: 'Show me our most chaotic and mischievous dragons' },
-    { emoji: '🧠', label: 'Brains vs. brawn', prompt: 'Make a scatter chart of dragon intelligence vs fire power, colored by element — any brainy brutes?' },
+    { emoji: '🧠', label: 'Brains vs. brawn', prompt: 'Make a scatter chart of dragon intelligence vs fire power, labeled by dragon name on hover — any brainy brutes?' },
     { emoji: '🎙️', label: 'Loudest roars', prompt: 'Which dragons have the loudest roars? Rank them by decibels' },
     { emoji: '🍽️', label: 'Dragon diets', prompt: "Break down the sanctuary's dragons by diet type" },
     { emoji: '❤️', label: 'Sponsor leaderboard', prompt: 'Who are our most-sponsored dragons, and what does sponsoring actually get you?' },

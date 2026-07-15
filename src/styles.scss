@@ -1,0 +1,220 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #140f0c;
+  --bg-void: #0b0807;
+  --card: #221910;
+  --card-strong: #2b1f14;
+  --border: #4a3320;
+  --muted: #d3b696;
+  --text: #f5ead9;
+
+  --ember: #ff7a2e;
+  --ember-deep: #e0450b;
+  --ember-hot: #ffc370;
+
+  --cursor-x: 50vw;
+  --cursor-y: 50vh;
+}
+
+/* The OpenUI island's own component palette (`--openui-*`) tracks the OS
+ * `prefers-color-scheme` independently, and its stylesheet is injected into
+ * <head> at runtime *after* this one — so on equal specificity it would win
+ * over anything set here. `html:root` outranks a plain `:root` rule on
+ * specificity alone, which keeps generated cards/tables/charts pinned to the
+ * library's own dark palette regardless of load order or OS theme. */
+html:root {
+  --openui-background: oklch(0.145 0 0 / 1);
+  --openui-foreground: oklch(0.205 0 0 / 1);
+  --openui-popover-background: oklch(0.205 0 0 / 1);
+  --openui-sunk-light: oklch(0.994 0 89.876 / 0.02);
+  --openui-sunk: oklch(0.994 0 89.876 / 0.04);
+  --openui-sunk-deep: oklch(0.994 0 89.876 / 0.08);
+  --openui-elevated-light: oklch(0.994 0 89.876 / 0.04);
+  --openui-elevated: oklch(0.994 0 89.876 / 0.08);
+  --openui-elevated-strong: oklch(0.994 0 89.876 / 0.16);
+  --openui-elevated-intense: oklch(0.994 0 89.876 / 0.32);
+  --openui-overlay: oklch(0 0 0 / 0.6);
+  --openui-highlight-subtle: oklch(0.994 0 89.876 / 0.02);
+  --openui-highlight: oklch(0.994 0 89.876 / 0.04);
+  --openui-highlight-strong: oklch(0.994 0 89.876 / 0.08);
+  --openui-highlight-intense: oklch(0.994 0 89.876 / 0.3);
+  --openui-inverted-background: oklch(0.994 0 89.876 / 1);
+  --openui-text-neutral-primary: oklch(0.985 0 89.876 / 1);
+  --openui-text-neutral-secondary: oklch(0.985 0 89.876 / 0.5);
+  --openui-text-neutral-tertiary: oklch(0.985 0 89.876 / 0.2);
+  --openui-text-neutral-link: oklch(0.985 0 89.876 / 1);
+  --openui-text-brand: oklch(0.994 0 89.876 / 1);
+  --openui-text-accent-primary: oklch(0.097 0 0 / 1);
+  --openui-text-accent-secondary: oklch(0.097 0 0 / 0.5);
+  --openui-text-accent-tertiary: oklch(0.097 0 0 / 0.2);
+  --openui-text-success-primary: oklch(0.871 0.136 154.449 / 1);
+  --openui-text-alert-primary: oklch(0.905 0.166 98.111 / 1);
+  --openui-text-danger-primary: oklch(0.808 0.103 19.571 / 1);
+  --openui-text-danger-secondary: oklch(0.885 0.059 18.334 / 1);
+  --openui-text-danger-tertiary: oklch(0.936 0.031 17.717 / 1);
+  --openui-text-info-primary: oklch(0.809 0.096 251.813 / 1);
+  --openui-text-pink-primary: oklch(0.823 0.11 346.018 / 1);
+  --openui-text-purple-primary: oklch(0.827 0.108 306.383 / 1);
+  --openui-interactive-accent-default: oklch(0.994 0 89.876 / 1);
+  --openui-interactive-accent-hover: oklch(0.994 0 89.876 / 0.8);
+  --openui-interactive-accent-disabled: oklch(0.994 0 89.876 / 0.4);
+  --openui-interactive-accent-pressed: oklch(0.994 0 89.876 / 1);
+  --openui-chat-user-response-bg: oklch(0.994 0 89.876 / 0.08);
+  --openui-chat-user-response-text: oklch(0.985 0 89.876 / 1);
+  --openui-border-default: oklch(0.994 0 89.876 / 0.06);
+  --openui-border-interactive: oklch(0.994 0 89.876 / 0.12);
+  --openui-border-interactive-emphasis: oklch(0.994 0 89.876 / 0.4);
+  --openui-border-interactive-selected: oklch(0.985 0 89.876 / 1);
+  --openui-border-accent: oklch(0.994 0 89.876 / 0.2);
+  --openui-border-accent-emphasis: oklch(0.994 0 89.876 / 0.4);
+  --openui-shadow-s: 0 1px 3px -2px oklch(0 0 0 / 0.06), 0 2px 5px -2px oklch(0 0 0 / 0.1);
+  --openui-shadow-m: 0 4px 6px -2px oklch(0 0 0 / 0.08), 0 2px 2px -2px oklch(0 0 0 / 0.12);
+  --openui-shadow-l: 0 4px 4px -2px oklch(0 0 0 / 0.12), 0 4px 8px -2px oklch(0 0 0 / 0.1);
+  --openui-shadow-xl: 0 8px 16px -4px oklch(0 0 0 / 0.16), 0 16px 32px -6px oklch(0 0 0 / 0.2);
+  --openui-shadow-2xl: 0 12px 24px -6px oklch(0 0 0 / 0.2), 0 24px 48px -8px oklch(0 0 0 / 0.24);
+  --openui-shadow-3xl: 0 16px 32px -8px oklch(0 0 0 / 0.24), 0 32px 64px -12px oklch(0 0 0 / 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  position: relative;
+  isolation: isolate; // keeps the fixed, negative-z-index background layers below in-flow content
+  background: var(--bg-void);
+  color: var(--text);
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Glowing dragon-scale background ───────────────────────────────────────
+ * ONE fixed hex-scale tile (dragon-scales.svg) covers the entire viewport,
+ * anchored at the same origin (0 0) in both layers below — the pattern
+ * itself never moves. What moves is which part of it is unmasked:
+ *   body::before reveals a fixed spot in the middle (the ambient glow).
+ *   .cursor-glow reveals a small window that follows the pointer, like a
+ *   flashlight passing over a wall that was there all along.
+ * Because both layers share identical background-image/position, whichever
+ * window is open shows the exact same static pattern underneath — the
+ * texture is fixed in screen-space; only the reveal moves.
+ * body::after adds a faint, wider ember haze bleeding into the black. */
+$hex-layers: radial-gradient(min(60vmin, 600px) circle at 50% 50%, rgba(255, 90, 40, 0.24), transparent 100%),
+  radial-gradient(min(40vmin, 400px) circle at 50% 50%, rgba(224, 40, 20, 0.55), transparent 100%),
+  url('/dragon-scales.svg');
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: $hex-layers;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    min(51vmin, 510px) circle at 50% 50%,
+    black 0%,
+    rgba(0, 0, 0, 0.5) 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    min(51vmin, 510px) circle at 50% 50%,
+    black 0%,
+    rgba(0, 0, 0, 0.5) 55%,
+    transparent 100%
+  );
+  animation: ember-pulse 6s ease-in-out infinite;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, rgba(224, 40, 20, 0.12), transparent 60%);
+  animation: ember-pulse 6s ease-in-out infinite;
+}
+
+@keyframes ember-pulse {
+  0%,
+  100% {
+    filter: brightness(1) saturate(1);
+    opacity: 0.92;
+  }
+  50% {
+    filter: brightness(1.16) saturate(1.12);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+/* ── Cursor spotlight ───────────────────────────────────────────────────────
+ * Shares body::before's exact background stack (same position, no size
+ * override) so it renders the identical, perfectly phase-locked hex tile —
+ * only the mask window (positioned via --cursor-x/--cursor-y, set in
+ * app.ts on `pointermove`) differs, so moving the mouse reveals more of the
+ * same fixed pattern rather than dragging a copy of it around. */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  background-image: $hex-layers;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    160px circle at var(--cursor-x) var(--cursor-y),
+    black 0%,
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    160px circle at var(--cursor-x) var(--cursor-y),
+    black 0%,
+    rgba(0, 0, 0, 0.45) 55%,
+    transparent 100%
+  );
+}
+
+html.cursor-active .cursor-glow {
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    transition: opacity 0.3s ease;
+  }
+}
+
+@media (pointer: coarse) {
+  // Touch devices have no persistent hover point — the effect would just
+  // stick wherever the last tap happened, which reads as a stray glow, not a
+  // cursor. Skip it there.
+  .cursor-glow {
+    display: none;
+  }
+}

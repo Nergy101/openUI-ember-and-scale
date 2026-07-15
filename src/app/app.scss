@@ -1,0 +1,67 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 0;
+}
+
+.topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px clamp(12px, 5vw, 64px);
+  border-bottom: 1px solid var(--border);
+  background: var(--card-strong);
+  box-shadow: 0 1px 0 rgba(255, 122, 46, 0.15), 0 12px 24px -16px rgba(224, 69, 11, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .logo {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 10px rgba(255, 122, 46, 0.65));
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    strong {
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    small {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+  }
+}
+
+.repo-link {
+  color: var(--ember-hot);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+app-chat {
+  flex: 1;
+  min-height: 0;
+}

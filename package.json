@@ -1,0 +1,53 @@
+{
+  "name": "ember-scale",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "dev": "npm run build:island && concurrently -k -n api,web -c yellow,cyan \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "node --watch --env-file-if-exists=.env --import tsx server/index.ts",
+    "dev:web": "ng serve --proxy-config proxy.conf.json",
+    "build:island": "node island/build.mjs",
+    "build": "npm run build:island && ng build",
+    "serve": "node --env-file-if-exists=.env --import tsx server/index.ts",
+    "start": "npm run build && npm run serve",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "packageManager": "npm@11.16.0",
+  "dependencies": {
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/router": "^22.0.0",
+    "@azure/identity": "^4.13.1",
+    "@openuidev/lang-core": "^0.2.9",
+    "@openuidev/react-headless": "^0.9.2",
+    "@openuidev/react-lang": "^0.2.8",
+    "@openuidev/react-ui": "^0.12.1",
+    "express": "^5.2.1",
+    "openai": "^6.46.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zod": "^4.4.3",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.0.6",
+    "@angular/cli": "^22.0.6",
+    "@angular/compiler-cli": "^22.0.0",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "concurrently": "^9.2.4",
+    "esbuild": "^0.25.12",
+    "prettier": "^3.8.1",
+    "tsx": "^4.23.1",
+    "typescript": "~6.0.2"
+  }
+}

@@ -1,0 +1,69 @@
+<div class="chat">
+  <div class="thread">
+    @if (turns().length === 0) {
+      <div class="welcome">
+        <div class="welcome-badge">🐉 Ember &amp; Scale</div>
+        <h1>Generative UI for the Dragon Sanctuary</h1>
+        <p>
+          Ask a question and the assistant composes a live interface — cards, charts, reports —
+          from real sanctuary data. Powered by
+          <a href="https://www.openui.com/docs/openui-lang" target="_blank" rel="noreferrer">OpenUI</a>.
+        </p>
+        <div class="starter-grid">
+          @for (ex of examples; track ex.label) {
+            <button type="button" class="starter" (click)="useExample(ex.prompt)" [disabled]="busy()">
+              <span class="starter-emoji">{{ ex.emoji }}</span>
+              <span class="starter-text">
+                <strong>{{ ex.label }}</strong>
+                <em>{{ ex.prompt }}</em>
+              </span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @for (turn of turns(); track turn.id) {
+      @if (turn.role === 'user') {
+        <div class="turn user">
+          <div class="bubble">{{ turn.text }}</div>
+        </div>
+      } @else {
+        <div class="turn assistant">
+          @if (turn.streaming && !turn.text) {
+            <div class="thinking">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              summoning dragons…
+            </div>
+          }
+          <app-genui [response]="turn.text" [isStreaming]="turn.streaming" />
+        </div>
+      }
+    }
+  </div>
+
+  @if (turns().length > 0) {
+    <div class="quick-chips">
+      @for (ex of examples; track ex.label) {
+        <button type="button" (click)="useExample(ex.prompt)" [disabled]="busy()">
+          {{ ex.emoji }} {{ ex.label }}
+        </button>
+      }
+    </div>
+  }
+
+  <form class="composer" (ngSubmit)="submit()">
+    <input
+      type="text"
+      name="draft"
+      autocomplete="off"
+      placeholder="Ask about dragons, hoards, rescues, stats…"
+      [ngModel]="draft()"
+      (ngModelChange)="draft.set($event)"
+      [disabled]="busy()"
+    />
+    <button type="submit" [disabled]="busy() || !draft().trim()">
+      {{ busy() ? '…' : 'Send' }}
+    </button>
+  </form>
+</div>

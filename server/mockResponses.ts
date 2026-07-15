@@ -47,6 +47,28 @@ bar = BarChart(top.rows.name, [Series("Fire Power", top.rows.firePower)], "group
 tbl = Table([Col("Dragon", top.rows.name), Col("Element", top.rows.element), Col("🔥 Power", top.rows.firePower, "number"), Col("Adopt", @Each(top.rows, "d", Button("Sponsor " + d.name, Action([@Set($sponsorId, d.id), @Run(sponsor), @Run(top)]))))])
 root = Stack([header, bar, tbl])`;
 
+const scatterBrainsBrawn = `dragons = Query("list_dragons", {}, {rows: []})
+dragonSeries = @Each(dragons.rows, "d", ScatterSeries(d.name, [Point(d.intelligenceScore, d.firePower)]))
+header = CardHeader("Brains vs. Brawn 🧠🔥", "Intelligence vs fire power — hover a point to see which dragon it is")
+scatter = ScatterChart(dragonSeries, "Intelligence", "Fire Power")
+note = Callout("info", "Reading this chart", "Top-left = clever but harmless. Bottom-right = strong but not the sharpest claw in the cave.")
+root = Stack([header, scatter, note])`;
+
+const sponsorLeaderboard = `$sponsorId = ""
+top = Query("top_dragons", {metric: "sponsorCount", limit: 6}, {rows: []})
+sponsor = Mutation("sponsor_dragon", {id: $sponsorId})
+header = CardHeader("Sponsor Leaderboard ❤️", "Our most-loved dragons — and what sponsoring actually means")
+note = Callout("info", "How sponsoring works", "Sponsoring isn't adoption — it's not exclusive. Any number of people can sponsor the same dragon at once, each chipping in its monthly gold upkeep for food, vet care, and enrichment.")
+tbl = Table([Col("Dragon", top.rows.name), Col("Sponsors", top.rows.sponsorCount, "number"), Col("Gold/mo each", top.rows.monthlySponsorshipGold, "number"), Col("Chip in", @Each(top.rows, "d", Button("Sponsor " + d.name, Action([@Set($sponsorId, d.id), @Run(sponsor), @Run(top)]))))])
+root = Stack([header, note, tbl])`;
+
+const dietBreakdown = `dragons = Query("list_dragons", {}, {rows: []})
+header = CardHeader("Dragon Diets 🍽️", "What the sanctuary's residents actually eat")
+dietLabels = ["Carnivore", "Herbivore", "Omnivore", "Treasure-eater"]
+dietCounts = [@Count(@Filter(dragons.rows, "dietType", "==", "Carnivore")), @Count(@Filter(dragons.rows, "dietType", "==", "Herbivore")), @Count(@Filter(dragons.rows, "dietType", "==", "Omnivore")), @Count(@Filter(dragons.rows, "dietType", "==", "Treasure-eater"))]
+pie = PieChart(dietLabels, dietCounts, "donut")
+root = Stack([header, pie])`;
+
 interface Route {
   keywords: string[];
   code: string;
@@ -54,6 +76,9 @@ interface Route {
 
 // Most specific first.
 const routes: Route[] = [
+  { keywords: ['scatter', 'brainy', 'brains', 'correlat'], code: scatterBrainsBrawn },
+  { keywords: ['leaderboard', 'most-sponsored', 'most sponsored'], code: sponsorLeaderboard },
+  { keywords: ['diet'], code: dietBreakdown },
   { keywords: ['fire', 'card', 'profile', 'available'], code: cards },
   { keywords: ['hoard', 'treasure', 'element', 'gold', 'pie'], code: elementPie },
   { keywords: ['dashboard', 'overview', 'kpi', 'summary', 'everything'], code: dashboard },
